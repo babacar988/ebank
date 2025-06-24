@@ -1,4 +1,6 @@
 package com.diti.ebank.services.impl;
 
-public class AccountServiceImpl {
+import com.diti.ebank.services.AccountService;
+
+public class AccountServiceImpl implements AccountService {
 }

@@ -2,6 +2,8 @@ package com.diti.ebank;
 
 import com.diti.ebank.DB.ConnectionDB;
 import com.diti.ebank.entities.Customer;
+import com.diti.ebank.entities.CustomerImpl;
+import com.diti.ebank.entities.ICustomer;
 import com.diti.ebank.tools.Utils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +17,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent parent = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/views/account.fxml"));
         Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.setTitle("Ebank");
         stage.show();
     }
     public static void main(String[] args) {
+        /*
         ConnectionDB db = new ConnectionDB();
+
         Customer customer = new Customer();
         customer.setFirstname("Doudou Leye");
         customer.setLastname("Diakhate");
@@ -40,6 +44,18 @@ public class App extends Application {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
+
+        ICustomer entities = new CustomerImpl();
+        Customer customer = entities.seConnecter("babacar", "$2a$10$xUJnmAHqhKcbhh.mbuthe.42MvzgCwT0EuCWBql3LzIWnFlLCwsei");
+        if (customer != null) {
+            System.out.println("Customer is connected");
+        }else
+            System.out.println("Customer not found");
+
+         */
+
 
         launch(args);
     }
