@@ -101,6 +101,12 @@ public class AccountController implements Initializable{
 
     }
 
+
+    @FXML
+    void AjouterClient(ActionEvent event) throws IOException {
+        Outils.load(event,"Ajouter de client","/views/customer.fxml");
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadTable();

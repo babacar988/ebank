@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent parent = FXMLLoader.load(getClass().getResource("/views/account.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
         Scene scene = new Scene(parent);
         stage.setScene(scene);
         stage.setTitle("Ebank");

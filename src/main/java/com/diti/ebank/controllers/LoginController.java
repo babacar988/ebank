@@ -40,16 +40,21 @@ public class LoginController {
                 if (user == null) {
                     System.out.println("Erreur de connexion");
                 }else{
-                    if(Utils.checkPassword(password,user.getPassword()));
+                    if (password.equals(user.getPassword())) {
                     System.out.println("connexion reussie");
-                    Outils.load(event, "Page de connexion","/views/account.fxml");
-
+                    Outils.load(event, "Mon compte","/views/account.fxml");
+                    }
                 }
             }catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+    }
+
+    @FXML
+    void creercompte(ActionEvent event) throws IOException {
+        Outils.load(event,"Creation compte","/views/create-account.fxml");
     }
 
 }

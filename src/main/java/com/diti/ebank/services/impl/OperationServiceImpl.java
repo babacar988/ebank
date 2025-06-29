@@ -12,19 +12,17 @@ public class OperationServiceImpl implements OperationService {
     private ResultSet rs;
 
     @Override
-    public void effectuerVirement(String compteDebiteur,String idCD, String compteCrediteur,String idCC, double montant) {
+    public void effectuerVirement(String idCD, String idCC, double montant) {
 
         String sql = """
         UPDATE account
         SET balance = balance - ?
         WHERE id = ?
-          AND custumer_id = (SELECT id FROM custumer WHERE username = ?)
     """;
         String sql2 = """
         UPDATE account
         SET balance = balance + ?
         WHERE id = ?
-          AND custumer_id = (SELECT id FROM custumer WHERE username = ?)
         """;
         String sql3 = """
         INSERT INTO operation (account_id, amount, type_operation, operation_date)
@@ -38,27 +36,24 @@ public class OperationServiceImpl implements OperationService {
             throw new IllegalArgumentException("Le montant du virement doit être positif.");
         }
 
-        if (compteDebiteur == null || compteCrediteur == null) {
-            throw new IllegalArgumentException("Les numéros de compte ne peuvent pas être nuls.");
-        }
 
         try {
             db.initPrepar(sql);
             db.getPstm().setDouble(1, montant);
             db.getPstm().setString(2, idCD);
-            db.getPstm().setString(3, compteDebiteur);
+
             int ok = db.executeMaj();
             if (ok == 0) {
-                throw new RuntimeException("Aucun compte trouvé pour le numéro de compte débiteur : " + compteDebiteur);
+                throw new RuntimeException("Aucun compte trouvé pour le numéro de compte débiteur : " + idCD);
             }
 
             db.initPrepar(sql2);
             db.getPstm().setDouble(1, montant);
             db.getPstm().setString(2, idCC);
-            db.getPstm().setString(3, compteCrediteur);
+
             int ok2 = db.executeMaj();
             if (ok2 == 0) {
-                throw new RuntimeException("Aucun compte trouvé pour le numéro de compte créditeur : " + compteCrediteur);
+                throw new RuntimeException("Aucun compte trouvé pour le numéro de compte créditeur : " + idCC);
             }
 
             db.initPrepar(sql3);
@@ -79,7 +74,7 @@ public class OperationServiceImpl implements OperationService {
 
 
             db.closeConnection();
-            Notification.NotifSuccess("SUCCESS", "Virement effectué avec succès de " + compteDebiteur + " vers " + compteCrediteur);
+            Notification.NotifSuccess("SUCCESS", "Virement effectué avec succès de " + idCD + " vers " + idCC);
 
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors du virement : " + e.getMessage(), e);
@@ -124,12 +119,11 @@ public class OperationServiceImpl implements OperationService {
     }
 */
     @Override
-    public void retirerArgent(String username, String accountNumber, double montant) {
+    public void retirerArgent(String accountNumber, double montant) {
     String sql = """
         UPDATE account
         SET balance = balance - ?
         WHERE id = ?
-          AND custumer_id = (SELECT id FROM custumer WHERE username = ?)
     """;
     String sql1 = """
         INSERT INTO operation (account_id, amount, type_operation, operation_date)
@@ -140,7 +134,7 @@ public class OperationServiceImpl implements OperationService {
         throw new IllegalArgumentException("Le montant du retrait doit être positif.");
     }
 
-    if (username == null || username.isEmpty() || accountNumber == null || accountNumber.isEmpty()) {
+    if (accountNumber == null || accountNumber.isEmpty()) {
         throw new IllegalArgumentException("Le username et le numéro de compte ne peuvent pas être vides.");
     }
 
@@ -148,10 +142,9 @@ public class OperationServiceImpl implements OperationService {
         db.initPrepar(sql);
         db.getPstm().setDouble(1, montant);
         db.getPstm().setString(2, accountNumber);
-        db.getPstm().setString(3, username);
         int ok = db.executeMaj();
         if (ok == 0) {
-            throw new RuntimeException("Aucun compte trouvé pour le username : " + username + " avec le compte : " + accountNumber);
+            throw new RuntimeException("Aucun compte trouvé pour le username : "  + " avec le compte : " + accountNumber);
         }
         // Vider les champs après le retrait
         //viderChamp();
@@ -174,13 +167,12 @@ public class OperationServiceImpl implements OperationService {
 }
 
     @Override
-    public void deposerArgent(String username, String accountNumber, double montant) {
+    public void deposerArgent( String accountNumber, double montant) {
 
         String sql = """
         UPDATE account
         SET balance = balance + ?
         WHERE id = ?
-          AND custumer_id = (SELECT id FROM custumer WHERE username = ?)
     """;
 
         String sql1 = """
@@ -192,7 +184,7 @@ public class OperationServiceImpl implements OperationService {
             throw new IllegalArgumentException("Le montant du retrait doit être positif.");
         }
 
-        if (username == null || username.isEmpty() || accountNumber == null || accountNumber.isEmpty()) {
+        if ( accountNumber == null || accountNumber.isEmpty()) {
             throw new IllegalArgumentException("Le username et le numéro de compte ne peuvent pas être vides.");
         }
 
@@ -200,10 +192,9 @@ public class OperationServiceImpl implements OperationService {
             db.initPrepar(sql);
             db.getPstm().setDouble(1, montant);
             db.getPstm().setString(2, accountNumber);
-            db.getPstm().setString(3, username);
             int ok = db.executeMaj();
             if (ok == 0) {
-                throw new RuntimeException("Aucun compte trouvé pour le username : " + username + " avec le compte : " + accountNumber);
+                throw new RuntimeException("Aucun compte trouvé pour le username : " + " avec le compte : " + accountNumber);
             }
             db.initPrepar(sql1);
             db.getPstm().setString(1, accountNumber);
