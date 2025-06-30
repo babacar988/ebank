@@ -36,12 +36,22 @@ public class OperationController {
     OperationService operation = new OperationServiceImpl();
 
 
+
+    void viderChamp() {
+        idTfd.setText("");
+        montantTfd.setText("");
+        idCCTfd.setText("");
+        idCDTfd.setText("");
+        MontantTransferTfd.setText("");
+    }
+
     @FXML
     void depotBtn(ActionEvent event) {
 
         String id = idTfd.getText();
         double montant1 = Double.parseDouble(montantTfd.getText());
         operation.deposerArgent( id, montant1);
+        viderChamp();
 
     }
 
@@ -52,6 +62,7 @@ public class OperationController {
         String id = idTfd.getText();
         double montant2 = Double.parseDouble(montantTfd.getText());
         operation.retirerArgent( id , montant2);
+        viderChamp();
 
     }
 
@@ -64,7 +75,7 @@ public class OperationController {
         String idCC = idCCTfd.getText();
         double montant3 = Double.parseDouble(MontantTransferTfd.getText());
         operation.effectuerVirement(idCD ,  idCC, montant3);
-
+        viderChamp();
     }
 
     @FXML

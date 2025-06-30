@@ -117,8 +117,8 @@ public class CustomerController implements Initializable {
             db.getPstm().setString(1,firstnameTf.getText());
             db.getPstm().setString(2,lastnameTf.getText());
             db.getPstm().setString(3,usernameTf.getText());
-            //db.getPstm().setString(4, Utils.hashPassword(passwordTfd.getText()));
-            db.getPstm().setString(4, passwordTfd.getText());
+            db.getPstm().setString(4, Utils.hashPassword(passwordTfd.getText()));
+            //db.getPstm().setString(4, passwordTfd.getText());
             int ok = db.executeMaj();
             db.closeConnection();
             loadTable();

@@ -1,6 +1,7 @@
 package com.diti.ebank.services.impl;
 
 import com.diti.ebank.DB.ConnectionDB;
+import com.diti.ebank.controllers.OperationController;
 import com.diti.ebank.services.OperationService;
 import com.diti.ebank.tools.Notification;
 
@@ -203,6 +204,9 @@ public class OperationServiceImpl implements OperationService {
             if (ok1 == 0) {
                 throw new RuntimeException("Erreur lors de l'enregistrement de l'opération de depot pour le compte : " + accountNumber);
             }
+            Notification.NotifSuccess("SUCCESS", "Depot effectué avec succès pour le compte : " + accountNumber);
+            // Vider les champs après le retrait
+            //viderChamp();
             db.closeConnection();
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors du retrait : " + e.getMessage(), e);

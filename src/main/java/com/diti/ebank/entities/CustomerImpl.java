@@ -13,12 +13,13 @@ public class CustomerImpl implements ICustomer {
     @Override
     public Customer seConnecter(String username) {
         String sql = "SELECT * FROM custumer WHERE username=? ";
-        Customer customers=null;
-        //Customer customers = new Customer();
+        //Customer customers=null;
+        Customer customers = new Customer();
 
         try {
             db.initPrepar(sql);
             db.getPstm().setString(1, username);
+
 
             rs = db.executeSelect();
             if (rs.next()) {

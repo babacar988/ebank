@@ -40,7 +40,8 @@ public class LoginController {
                 if (user == null) {
                     System.out.println("Erreur de connexion");
                 }else{
-                    if (password.equals(user.getPassword())) {
+                    //if (password.equals(user.getPassword())) {
+                    if (Utils.checkPassword(password, user.getPassword())) {
                     System.out.println("connexion reussie");
                     Outils.load(event, "Mon compte","/views/account.fxml");
                     }
